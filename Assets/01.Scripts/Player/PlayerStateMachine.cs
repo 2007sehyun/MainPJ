@@ -8,8 +8,12 @@ public class PlayerStateMachine : StateMachine
     [field: SerializeField] public CharacterController charactorController { get; private set; }
     [field: SerializeField] public Animator AnimatorCompo { get; private set; }
     [field: SerializeField] public Targeter TargeterCompo { get; private set; }
+    [field: SerializeField] public ForceReceiver ForceCompo { get; private set; }
+    [field: SerializeField] public WeaponDamage WeaponDamage { get; private set; }
     [field: SerializeField] public float FreeLookMovementSpeed { get; private set; }
+    [field: SerializeField] public float TargetingMoveSpeed { get; private set; }
     [field: SerializeField] public float RotationDamping { get; private set; }
+    [field: SerializeField] public Attack[] Attacks { get; private set; }
     public Transform MainCameraTransform  { get; private set; }
     private void Start()
     {
