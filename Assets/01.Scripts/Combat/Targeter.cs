@@ -13,7 +13,7 @@ public class Targeter : MonoBehaviour
 
     private Camera mainCamera;
     private List<Target> targets = new List<Target>();
-    public Target CurrentTarget{ get; private set; }
+    public Target CurrentTarget { get; private set; }
 
     private void Start()
     {
@@ -23,7 +23,7 @@ public class Targeter : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
         if (!other.TryGetComponent<Target>(out Target target)) return;
-        
+
         targets.Add(target);
         target.OnDestroyed += RemoveTarget;
     }
@@ -32,28 +32,28 @@ public class Targeter : MonoBehaviour
     {
         if (!other.TryGetComponent<Target>(out Target target)) return;
 
-        RemoveTarget(target); 
+        RemoveTarget(target);
     }
 
     public bool SelectTarget()
     {
-        if(targets.Count ==0) return false;
+        if (targets.Count == 0) return false;
 
         Target closestTarget = null;
         float closestTargetDistance = Mathf.Infinity;
 
-        foreach(Target target in targets)
+        foreach (Target target in targets)
         {
             Vector2 viewPos = mainCamera.WorldToViewportPoint(target.transform.position);
 
-            if(viewPos.x< 0 || viewPos.y > 1 || viewPos.y < 0|| viewPos.y >1)
+            if (!target.GetComponentInChildren<Renderer>().isVisible)
             {
                 continue;
             }
 
             Vector2 toCenter = viewPos - new Vector2(.5f, .5f);
 
-            if(toCenter.sqrMagnitude < closestTargetDistance)
+            if (toCenter.sqrMagnitude < closestTargetDistance)
             {
                 closestTarget = target;
                 closestTargetDistance = toCenter.sqrMagnitude;
@@ -70,7 +70,7 @@ public class Targeter : MonoBehaviour
 
     public void Cancel()
     {
-        if(CurrentTarget == null) return;
+        if (CurrentTarget == null) return;
 
         cinemachineTargetGroup.RemoveMember(CurrentTarget.transform);
         CurrentTarget = null;
@@ -79,13 +79,13 @@ public class Targeter : MonoBehaviour
 
     private void RemoveTarget(Target target)
     {
-        if(CurrentTarget == target)
+        if (CurrentTarget == target)
         {
             cinemachineTargetGroup.RemoveMember(CurrentTarget.transform);
             CurrentTarget = null;
         }
 
-        target.OnDestroyed-= RemoveTarget;
+        target.OnDestroyed -= RemoveTarget;
         targets.Remove(target);
     }
 }

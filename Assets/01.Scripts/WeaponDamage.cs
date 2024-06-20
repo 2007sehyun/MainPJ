@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class WeaponDamage : MonoBehaviour
 {
@@ -9,26 +10,35 @@ public class WeaponDamage : MonoBehaviour
     private List<Collider> alreadyCollidedWith = new List<Collider>();
 
     private int damage;
+
+    private float knockbackPower;
     private void OnEnable()
     {
         alreadyCollidedWith.Clear();
     }
     private void OnTriggerEnter(Collider other)
     {
-        if(other == myCollider) { return; }
+        if (other == myCollider) { return; }
 
-        if(alreadyCollidedWith.Contains(other)) { return; }
+        if (alreadyCollidedWith.Contains(other)) { return; }
 
-        alreadyCollidedWith.Add(other); 
+        alreadyCollidedWith.Add(other);
 
-        if(other.TryGetComponent<Health>(out Health health))
+        if (other.TryGetComponent<Health>(out Health health))
         {
             health.DealDamage(damage);
         }
+
+        if (other.TryGetComponent<ForceReceiver>(out ForceReceiver forceReceiver))
+        {
+            Vector3 direction = (other.transform.position - myCollider.transform.position).normalized;
+            forceReceiver.AddForce(direction * knockbackPower);
+        }
     }
 
-    public void SetAttack(int damage)
+    public void SetAttack(int damage, float KnockbackPower)
     {
+        this.knockbackPower = KnockbackPower;
         this.damage = damage;
     }
 }
