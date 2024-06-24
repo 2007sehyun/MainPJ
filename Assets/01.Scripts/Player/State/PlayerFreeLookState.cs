@@ -1,6 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEditor.ShaderGraph.Internal;
 using UnityEngine;
 
 public class PlayerFreeLookState : PlayerBaseState
@@ -32,7 +29,7 @@ public class PlayerFreeLookState : PlayerBaseState
         }
 
         Vector3 movement = CalculateMovement();
-        
+
         Move(movement * stateMachine.FreeLookMovementSpeed, deltaTime);
 
         if (stateMachine.inputReader.MovementValue == Vector2.zero)

@@ -18,6 +18,7 @@ public class ForceReceiver : MonoBehaviour
 
     public Vector3 Movement => impact + Vector3.up * gravityVelocity;
 
+
     private void Update()
     {
         if (gravityVelocity < 0f && characterController.isGrounded)

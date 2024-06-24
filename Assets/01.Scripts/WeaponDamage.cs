@@ -1,10 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UIElements;
 
 public class WeaponDamage : MonoBehaviour
 {
+    [SerializeField] private bool IsEnemy = false;
     [SerializeField] private Collider myCollider;
 
     private List<Collider> alreadyCollidedWith = new List<Collider>();
@@ -19,8 +21,8 @@ public class WeaponDamage : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
         if (other == myCollider) { return; }
-
-        if (alreadyCollidedWith.Contains(other)) { return; }
+        //if (alreadyCollidedWith.Contains(other)) { return; }
+        if (IsEnemy && other.CompareTag("Enemy")) return;
 
         alreadyCollidedWith.Add(other);
 

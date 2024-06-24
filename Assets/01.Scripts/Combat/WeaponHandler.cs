@@ -4,15 +4,26 @@ using UnityEngine;
 
 public class WeaponHandler : MonoBehaviour
 {
-    [SerializeField] private GameObject weaponLogic;
-
+    [SerializeField] private Collider weaponLogic;
+    [SerializeField] private Collider weaponLogic2;
+    public bool IsAttack;
     public void EnableWeapon()
     {
-        weaponLogic.SetActive(true);
+        weaponLogic.enabled=true;
     }
 
     public void DisableWeapon()
     {
-        weaponLogic.SetActive(false);
+        weaponLogic.enabled = false;
+    }
+    public void SkillEnableWeapon()
+    {
+        weaponLogic2.enabled=true;
+    }
+
+    public void SkillDisableWeapon()
+    {
+        weaponLogic2.enabled = false;
+        IsAttack = false;
     }
 }
